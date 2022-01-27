@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>E-learn Compiler</title>
+	<link rel="stylesheet" type="text/css" href="https://codemirror.net/lib/codemirror.css">
+	<script type="text/javascript" src="https://codemirror.net/lib/codemirror.js"></script>
+	<script  type="text/javascript" src="https://codemirror.net/mode/xml/xml.js"></script>
+	<script  type="text/javascript" src="https://codemirror.net/mode/css/css.js"></script>
+	<script  type="text/javascript" src="https://codemirror.net/mode/javascript/javascript.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<style>
+
+.code {
+  display: flex;
+  float:left;
+  flex-direction:column;
+  width: 50%;
+  border-right:1px solid #555;
+}
+.html-code, .css-code, .js-code{
+border-bottom:1px solid #555;
+}
+.editor{
+margin-top:43px;
+display:flex;
+}
+.preview {
+  width: 50%;
+  }
+ .preview-window{
+  float:left;
+}
+.preview iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+/* resets */
+body { margin:0px; padding:0px;}
+
+/* main */
+header {
+    height: 360px;
+    z-index: 10;
+}
+.header-banner {
+    background-color: #333;
+    background-image: url('https://2u039y19805b25cqgy9ed9de-wpengine.netdna-ssl.com/wp-content/uploads/04-11-19_Comparing-Craft-WordPress-Drupal-2-1024x576.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 300px;
+}
+
+header h1 {
+    background-color: rgba(18,72,120, 0.8);
+    color: #fff;
+    padding: 0 1rem;
+    position: absolute;
+    top: 2rem; 
+    left: 2rem;
+}
+
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; 
+}
+
+nav {
+    width: 100%;
+    height: 60px;
+    background: #292f36;
+    postion: fixed;
+    z-index: 10;
+	
+}
+
+nav div {
+    color: white;
+    font-size: 2rem;
+    line-height: 60px;
+    position: absolute;
+    top: 0;
+    left: 2%;
+    visibility: hidden;
+}
+.visible-title {
+    visibility: visible;
+}
+
+nav ul { 
+    list-style-type: none;
+    margin: 0 2% auto 0;
+    padding-left: 0;
+    text-align: right;
+    max-width: 100%;
+}
+nav ul li { 
+    display: inline-block; 
+    line-height: 60px;
+    margin-left: 10px;
+}
+nav ul li a {
+    text-decoration: none; 
+    color: #a9abae;
+}
+
+body { 
+    color: #292f36;
+    font-family: helvetica;
+    line-height: 1.6;
+}
+
+button {
+	border: none;
+	outline: none;
+	padding: 10px 20px;
+	border-radius: 50px;
+	color: #333;
+	background: #fff;
+	margin-bottom: 50px;
+	box-shadow: 0 3px 20px 0 #0000003b;
+}
+button:hover{
+	cursor: pointer;
+	background-color:#05d7fc;
+	color:white;
+}
+
+	</style>
+</head>
+<body>
+
+	<header>
+    <div class="header-banner">
+        <h1>E-learn</h1>
+    </div>
+    <div class="clear"></div>
+    <nav >
+        <div class="site-title">E-learn</div>
+        <ul>
+            <li><button id="run-btn" >Run</button></li>
+        <ul>
+    </nav>
+</header>
+     
+  
+	<div class="editor">
+		<div class="code" >
+			<div class="html-code" ></div>
+			<div class="css-code" ></div>
+			<div class="js-code" ></div>
+		</div>
+		<div class="preview" >
+			<iframe id="preview-window"></iframe>
+		</div>
+	</div>
+</body>
+  <script>
+
+$(window).scroll(function(){
+    if ($(window).scrollTop() >= 300) {
+        $('nav').addClass('fixed-header');
+        $('nav div').addClass('visible-title');
+    }
+    else {
+        $('nav').removeClass('fixed-header');
+        $('nav div').removeClass('visible-title');
+    }
+});
+
+  const htmlEditor = CodeMirror(document.querySelector(".editor .code .html-code"),{
+	lineNumbers:true,
+	tabSize:4,
+	mode:"xml"
+});
+const cssEditor = CodeMirror(document.querySelector(".editor .code .css-code"),{
+	lineNumbers:true,
+	tabSize:4,
+	mode:"css"
+});
+const jsEditor = CodeMirror(document.querySelector(".editor .code .js-code"),{
+	lineNumbers:true,
+	tabSize:4,
+	mode:"javascript"
+});
+
+document.querySelector("#run-btn").addEventListener("click",function(){
+	let htmlCode = htmlEditor.getValue();
+	let cssCode = "<style>" + cssEditor.getValue() + "</style>";
+	let jsCode = "<scri" + "pt>" + jsEditor.getValue() + "</scri" + "pt>";
+	let previewWindow = document.querySelector("#preview-window").contentWindow.document;
+	previewWindow.open();
+	previewWindow.write(htmlCode+cssCode+jsCode);
+	previewWindow.close();
+});
+
+
+  </script>
+</html>
